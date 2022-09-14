@@ -5,10 +5,11 @@
  * @returns {object} - returns the new object
  */
 export const pick = (obj, ...fields) => {
-	let newObj = {};
-	let array = [...fields];
-	for (let value of Object.entries(obj)) {
-		if (array.includes(value[0])) newObj[value[0]] = value[1];
-	};
-	return newObj;
+	const result = {};
+
+	for (const [key, value] of Object.entries(obj)) {
+		if (fields.includes(key)) result[key] = value;
+	}
+
+	return result;
 };

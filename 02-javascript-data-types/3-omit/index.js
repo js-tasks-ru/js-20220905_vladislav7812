@@ -5,10 +5,11 @@
  * @returns {object} - returns the new object
  */
 export const omit = (obj, ...fields) => {
-	let newObj = JSON.parse(JSON.stringify(obj));
-	let array = [...fields];
-	for (let value of Object.entries(obj)) {
-		if (array.includes(value[0])) delete newObj[value[0]];
+	let result = {};
+
+	for (const key of Object.keys(obj)) {
+		if (!fields.includes(key)) result[key] = obj[key];
 	}
-	return newObj;
+
+	return result;
 };
