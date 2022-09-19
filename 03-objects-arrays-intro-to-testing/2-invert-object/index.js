@@ -10,7 +10,7 @@ export function invertObj(obj) {
 			newObj[value] = key;
 		}
 	} else {
-		return undefined;
+		return;
 	}
 	return newObj;
 }

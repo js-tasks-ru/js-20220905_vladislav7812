@@ -4,7 +4,7 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
-	const array = [...(path.split("."))];
+	const array = (path.split("."));
 	return function func(obj, index = 0) {
 		const value = array[index];
 		if (typeof obj[value] === 'object') {
