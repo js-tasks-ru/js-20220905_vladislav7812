@@ -32,8 +32,7 @@
       data: salesData,
       label: 'sales',
       value: 243437,
-      formatHeading: data => `$${data}`,
-      lala: 123,
+      formatHeading: data => `$${data}`
     });
 
     const customersChart = new ColumnChart({
@@ -45,7 +44,6 @@
     orders.append(ordersChart.element);
     sales.append(salesChart.element);
     customers.append(customersChart.element);
-    salesChart.update([1, 100, 90, 80, 35, 90, 25])
   </script>
 </body>
 
