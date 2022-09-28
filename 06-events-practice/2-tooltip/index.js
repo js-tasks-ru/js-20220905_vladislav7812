@@ -24,12 +24,13 @@ class Tooltip {
   }
 
   move(event) {
+    const shift = 10;
     this.subElements = this.getSubElements(event);
-    this.element.style.left = this.subElements['x'] + 'px';
-    this.element.style.top = this.subElements['y'] + 'px';
+    this.element.style.left = this.subElements['x'] + shift + 'px';
+    this.element.style.top = this.subElements['y'] + shift + 'px';
   }
 
-  setMessage(event, eventTarget) {
+  setMessage(eventTarget) {
     document.body.append(this.element);
 
     this.element.innerHTML = eventTarget.dataset.tooltip;
@@ -41,10 +42,10 @@ class Tooltip {
     document.addEventListener('mouseover', (event) => {
       switch (event.target.dataset.tooltip) {
         case 'foo':
-          this.setMessage(event, event.target);
+          this.setMessage(event.target);
           break;
         case 'bar-bar-bar':
-          this.setMessage(event, event.target);
+          this.setMessage(event.target);
           break;
         default:
           this.remove();
