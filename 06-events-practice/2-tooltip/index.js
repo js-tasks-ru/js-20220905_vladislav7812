@@ -17,8 +17,8 @@ class Tooltip {
   getSubElements(event) {
     const result = {};
 
-    result['x'] = event.clientX;
-    result['y'] = event.clientY;
+    result.x = event.clientX;
+    result.y = event.clientY;
 
     return result;
   }
@@ -26,8 +26,8 @@ class Tooltip {
   move(event) {
     const shift = 10;
     this.subElements = this.getSubElements(event);
-    this.element.style.left = this.subElements['x'] + shift + 'px';
-    this.element.style.top = this.subElements['y'] + shift + 'px';
+    this.element.style.left = this.subElements.x + shift + 'px';
+    this.element.style.top = this.subElements.y + shift + 'px';
   }
 
   setMessage(eventTarget) {

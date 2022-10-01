@@ -217,5 +217,4 @@ export default class SortableTable {
       this.sort({ fieldValue: target.dataset.id, orderValue: sortDirection });
     }, true);
   }
-
 }
