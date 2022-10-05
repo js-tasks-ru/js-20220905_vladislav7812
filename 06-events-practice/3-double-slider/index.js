@@ -85,11 +85,25 @@ export default class DoubleSlider {
 			}
 
 			function mouseUp() {
-				console.log(customEvent.detail);
+				this.element.dispatchEvent(new CustomEvent('range-select', {
+					detail: this.getValue(),
+					bubbles: true
+				}));
 				document.removeEventListener('mouseup', mouseUp);
 				document.removeEventListener('mousemove', move);
 			}
 		});
+	}
+
+	getValue() {
+		const rangeTotal = this.max - this.min;
+		const { left } = this.subElements.thumbLeft.style;
+		const { right } = this.subElements.thumbRight.style;
+
+		const from = Math.round(this.min + parseFloat(left) * 0.01 * rangeTotal);
+		const to = Math.round(this.max - parseFloat(right) * 0.01 * rangeTotal);
+
+		return { from, to };
 	}
 
 	get template() {
