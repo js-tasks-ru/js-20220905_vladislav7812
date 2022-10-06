@@ -13,8 +13,8 @@ export default class DoubleSlider {
 		const ranges = this.element.querySelectorAll('div.range-slider > span');
 		const [min, max] = ranges;
 
-		result['min'] = min;
-		result['max'] = max;
+		result.min = min;
+		result.max = max;
 		result['leftThumb'] = this.element.querySelector('.range-slider__thumb-left');
 		result['rightThumb'] = this.element.querySelector('.range-slider__thumb-right');
 		result['slider'] = this.element.querySelector('.range-slider__inner');
@@ -30,7 +30,7 @@ export default class DoubleSlider {
 
 		leftThumb.addEventListener('mousedown', (event) => {
 			event.preventDefault();
-			let rightEdge = (rightThumb.getBoundingClientRect().x - slider.getBoundingClientRect().x);
+			const rightEdge = (rightThumb.getBoundingClientRect().x - slider.getBoundingClientRect().x);
 
 			document.addEventListener('mousemove', move);
 			document.addEventListener('mouseup', mouseUp);
@@ -58,10 +58,15 @@ export default class DoubleSlider {
 		});
 		rightThumb.addEventListener('mousedown', (event) => {
 			event.preventDefault();
-			let leftEdge = (leftThumb.getBoundingClientRect().x - slider.getBoundingClientRect().x);
+			const leftEdge = (leftThumb.getBoundingClientRect().x - slider.getBoundingClientRect().x);
 
 			document.addEventListener('mousemove', move);
 			document.addEventListener('mouseup', mouseUp);
+
+			let customEvent = CustomEvent('range-select', {
+				detail: { from: min.innerHTML, to: max.innerHTML }
+			});
+			document.dispatchEvent(customEvent);
 
 			function move(event) {
 				let shiftX = event.clientX - slider.getBoundingClientRect().x;
@@ -80,10 +85,25 @@ export default class DoubleSlider {
 			}
 
 			function mouseUp() {
+				this.element.dispatchEvent(new CustomEvent('range-select', {
+					detail: this.getValue(),
+					bubbles: true
+				}));
 				document.removeEventListener('mouseup', mouseUp);
 				document.removeEventListener('mousemove', move);
 			}
 		});
+	}
+
+	getValue() {
+		const rangeTotal = this.max - this.min;
+		const { left } = this.subElements.thumbLeft.style;
+		const { right } = this.subElements.thumbRight.style;
+
+		const from = Math.round(this.min + parseFloat(left) * 0.01 * rangeTotal);
+		const to = Math.round(this.max - parseFloat(right) * 0.01 * rangeTotal);
+
+		return { from, to };
 	}
 
 	get template() {

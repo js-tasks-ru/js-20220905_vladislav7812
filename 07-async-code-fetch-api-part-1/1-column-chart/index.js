@@ -4,13 +4,13 @@ const BACKEND_URL = 'https://course-js.javascript.ru';
 
 export default class ColumnChart {
 	chartHeight = 50;
-	subElements = [];
-	constructor({ data = [], label = '', value = 0, link = '', formatHeading = data => data, url, range = {} } = {}) {
+	subElements = {};
+	constructor({ data = [], label = '', value = 0, link = '', formatHeading = data => data, url = '', range = { from: new Date(), to: new Date() } } = {}) {
 		this.data = data;
 		this.label = label;
 		this.value = value;
 		this.link = link;
-		this.url = url;
+		this.url = new URL(url, BACKEND_URL);
 		this.formatHeading = formatHeading;
 		this.render();
 	}
@@ -24,7 +24,7 @@ export default class ColumnChart {
 	getUrl(from, to) {
 		const start = from.toISOString().split('T')[0];
 		const end = to.toISOString().split('T')[0];
-		return `https://course-js.javascript.ru/${this.url}?from=${start}T11%3A07%3A55.908Z&to=${end}T11%3A07%3A55.908Z`;
+		return `${this.url}?from=${start}T11%3A07%3A55.908Z&to=${end}T11%3A07%3A55.908Z`;
 	}
 
 
@@ -37,7 +37,7 @@ export default class ColumnChart {
 	async update(from, to) {
 		this.element.classList.add('column-chart_loading');
 
-		let response = await fetchJson(this.getUrl(from, to));
+		const response = await fetchJson(this.getUrl(from, to));
 
 		this.data = Object.values(response);
 		this.value = this.data.reduce((sum, current) => sum + current);
