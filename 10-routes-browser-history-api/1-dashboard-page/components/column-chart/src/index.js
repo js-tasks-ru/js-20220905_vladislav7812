@@ -74,7 +74,7 @@ export default class ColumnChart {
       const scale = this.chartHeight / maxValue;
       const percent = (value / maxValue * 100).toFixed(0);
       const tooltip = `<span>
-        <small>${key.toLocaleString('default', {dateStyle: 'medium'})}</small>
+        <small>${key.toLocaleString('default', { dateStyle: 'medium' })}</small>
         <br>
         <strong>${percent}%</strong>
       </span>`;
